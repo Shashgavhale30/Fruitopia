@@ -1,0 +1,35 @@
+fruit_business/
+│
+├── index.php                     # Home page (public)
+├── login.php                     # Login page (for buyer/seller)
+├── register.php                  # Registration page
+├── logout.php                    # Logout and session destroy
+├── config.php                    # Database connection
+├── auth.php                      # Session/auth check logic
+│
+├── dashboard/                    # Dashboards
+│   ├── buyer_dashboard.php       # Buyer dashboard after login
+│   └── seller_dashboard.php      # Seller dashboard after login
+│
+├── fruits/                       
+│   ├── add_fruit.php             # Seller can add fruit
+│   ├── browse_fruit.php          # Buyer can browse by season
+│   └── fruit_details.php         # View individual fruit details
+│
+├── orders/
+│   ├── place_order.php           # Buyer places an order
+│   ├── view_orders.php           # Seller views incoming orders
+│   └── order_history.php         # Buyer views past orders
+│
+├── assets/                       # Static files
+│   ├── css/
+│   │   └── styles.css            # Custom styles
+│   ├── js/
+│   │   └── script.js             # JS functionality
+│   └── images/
+│       └── (logo, default icons etc.)
+│
+├── uploads/                      # Uploaded fruit images
+│
+└── database/                     # DB scripts (optional)
+    └── schema.sql                # SQL script to create tables
