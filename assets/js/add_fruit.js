@@ -1,34 +1,41 @@
+// assets/js/add_fruit.js
+
 document.addEventListener('DOMContentLoaded', () => {
     const nameInput = document.querySelector('input[name="name"]');
     const photoInput = document.querySelector('input[name="photo"]');
     const priceInput = document.querySelector('input[name="price"]');
     const unitSelect = document.querySelector('select[name="unit"]');
 
-    const previewDiv = document.createElement('div');
-    previewDiv.classList.add('fruit-preview');
+    const imagePreview = document.getElementById('imagePreview');
+    const submitBtn = document.getElementById('submitBtn');
+    const submitText = document.getElementById('submitText');
+    const loadingText = document.getElementById('loadingText');
 
-    const form = document.querySelector('form');
-    form.after(previewDiv);
-
-    function updatePreview() {
-        const name = nameInput.value.trim();
-        const photo = photoInput.value.trim();
-        const price = priceInput.value.trim();
-        const unit = unitSelect.options[unitSelect.selectedIndex].text;
-
-        if (name && photo && price) {
-            previewDiv.innerHTML = `
-                <img src="${photo}" alt="${name}">
-                <h3>${name}</h3>
-                <p>₹${price} ${unit}</p>
-            `;
-        } else {
-            previewDiv.innerHTML = '';
+    function updatePreviewImage(file) {
+        if (!file) {
+            imagePreview.innerHTML = '';
+            return;
         }
+
+        const reader = new FileReader();
+        reader.onload = function (e) {
+            imagePreview.innerHTML = `
+                <img src="${e.target.result}" alt="Fruit Image Preview" style="max-height: 150px; border-radius: 10px;" />
+            `;
+        };
+        reader.readAsDataURL(file);
     }
 
-    nameInput.addEventListener('input', updatePreview);
-    photoInput.addEventListener('input', updatePreview);
-    priceInput.addEventListener('input', updatePreview);
-    unitSelect.addEventListener('change', updatePreview);
+    photoInput.addEventListener('change', () => {
+        const file = photoInput.files[0];
+        updatePreviewImage(file);
+    });
+
+    // Optional: Disable submit button while loading
+    const form = document.getElementById('addFruitForm');
+    form.addEventListener('submit', () => {
+        submitBtn.disabled = true;
+        submitText.style.display = 'none';
+        loadingText.style.display = 'inline-block';
+    });
 });

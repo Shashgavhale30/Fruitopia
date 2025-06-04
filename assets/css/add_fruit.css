@@ -110,3 +110,27 @@ form button:hover {
   font-size: 1.2rem;
   color: var(--text-primary);
 }
+
+.existing-fruits {
+    margin-bottom: 20px;
+}
+
+.fruit-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+}
+
+.fruit-item {
+    border: 1px solid #ddd;
+    padding: 8px;
+    border-radius: 5px;
+    width: 150px;
+    text-align: center;
+}
+
+.fruit-item img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 4px;
+}

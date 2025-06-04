@@ -45,9 +45,7 @@ $seller_name = $seller ? $seller['name'] : 'Seller';
                     stroke-linecap="round"
                     stroke-linejoin="round"
                 >
-                    <path
-                        d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"
-                    ></path>
+                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
                     <circle cx="12" cy="10" r="3"></circle>
                 </svg>
                 Location
@@ -96,7 +94,7 @@ $seller_name = $seller ? $seller['name'] : 'Seller';
 
                 <!-- Order Requests button -->
                 <div class="order-request-btn" style="margin-left: 20px;">
-                    <a href="order_requests.php" style="display: flex; align-items: center; gap: 6px; text-decoration: none; color: inherit; font-weight: 500;">
+                    <a href="order_request.php" style="display: flex; align-items: center; gap: 6px; text-decoration: none; color: inherit; font-weight: 500;">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
                             <path d="M9 11H5a2 2 0 0 0-2 2v3c0 1.1.9 2 2 2h4m6-6h4a2 2 0 0 1 2 2v3c0 1.1-.9 2-2 2h-4m-6 0V9a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2z"></path>
                         </svg>

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 04, 2025 at 11:52 AM
+-- Generation Time: Jun 04, 2025 at 06:29 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.0.30
 
@@ -39,6 +39,15 @@ CREATE TABLE `add_fruits` (
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `add_fruits`
+--
+
+INSERT INTO `add_fruits` (`id`, `seller_id`, `name`, `photo`, `quantity`, `price`, `unit`, `season`, `created_at`) VALUES
+(1, 5, 'apple', './uploads/684058ebe56b1_5_1749047531.png', '1', 20.00, '', 'summer', '2025-06-04 14:32:11'),
+(2, 5, 'Mango', './uploads/6840598772a9d_5_1749047687.png', '60', 30.00, '', 'rainy', '2025-06-04 14:34:47'),
+(3, 5, 'Banana', './uploads/68405df93b7f9_5_1749048825.png', '20', 30.00, '', 'winter', '2025-06-04 14:53:45');
+
 -- --------------------------------------------------------
 
 --
@@ -52,6 +61,31 @@ CREATE TABLE `buyers` (
   `password` varchar(255) NOT NULL,
   `address` text NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `buyers`
+--
+
+INSERT INTO `buyers` (`id`, `name`, `email`, `password`, `address`, `created_at`) VALUES
+(1, 'shashwati', 'gavhale@gmail.com', '$2y$10$j7Fr3qRhaH9t2.i2H/9Kiel2DrAJ3/ozzKjIG0k0Wv.7SQjIaVDLK', 'At.Jamni , Po.Akoli , Tah.Seloo , dis.Wardha.', '2025-06-04 10:49:01');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `orders`
+--
+
+CREATE TABLE `orders` (
+  `id` int(11) NOT NULL,
+  `buyer_id` int(11) NOT NULL,
+  `seller_id` int(11) NOT NULL,
+  `fruit_name` varchar(100) NOT NULL,
+  `quantity` int(11) NOT NULL,
+  `price` decimal(10,2) NOT NULL,
+  `season` enum('summer','rainy','winter') NOT NULL,
+  `status` varchar(50) NOT NULL DEFAULT 'pending',
+  `order_date` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -96,7 +130,8 @@ INSERT INTO `sellers` (`id`, `name`, `address`, `bank_account`, `contact_no`, `e
 (1, 'Shashwati Gavhale', 'At.Jamni , Po.Akoli , Tah.Seloo , dis.Wardha.', '12643822857263', NULL, 'gavhaleshashwati@gmail.com', '$2y$10$8sporyxpqjl3kCTI3G7sK.08pQy3rzRIdnk0C.IjU6LFGWIjWCHRa', NULL),
 (2, 'Shashwati Gavhale', 'At.Jamni , Po.Akoli , Tah.Seloo , dis.Wardha.', '12643822857263', NULL, 'gavhaleshashwati123@gmail.com', '$2y$10$HutTWotUFiiCCUMV47EEcecJ6WQEyqI1IPZKqwTDhmlWd11bUL63.', NULL),
 (3, 'Shashwati Gavhale', 'At.Jamni , Po.Akoli , Tah.Seloo , dis.Wardha.', '12643822857263', NULL, 'gavhaleshashwati1234@gmail.com', '$2y$10$UxZVvOQE9PEvSR9tE5jr.O1kE.ALx92hS2DYadMvdTv8DgO.4mnt6', NULL),
-(4, 'Shashwati Gavhale', 'At.Jamni , Po.Akoli , Tah.Seloo , dis.Wardha.', '12643822857263', NULL, 'gavhaleshashwati1235@gmail.com', '$2y$10$JRUOpaq.EMRT3Vik4ws3SOvinWyJA950wjLekuwhkc/pqQFDobNA2', NULL);
+(4, 'Shashwati Gavhale', 'At.Jamni , Po.Akoli , Tah.Seloo , dis.Wardha.', '12643822857263', NULL, 'gavhaleshashwati1235@gmail.com', '$2y$10$JRUOpaq.EMRT3Vik4ws3SOvinWyJA950wjLekuwhkc/pqQFDobNA2', NULL),
+(5, 'vaibhav', 'At.Jamni , Po.Akoli , Tah.Seloo , dis.Wardha.', '334575432111', NULL, 'vj@gmail.com', '$2y$10$o.sMttmSJep2WO5gSaUFaeH48yj/njXj2e4JrmTSsP/tW2ISSljtO', NULL);
 
 -- --------------------------------------------------------
 
@@ -118,20 +153,6 @@ CREATE TABLE `summer_fruits` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `users`
---
-
-CREATE TABLE `users` (
-  `id` int(11) NOT NULL,
-  `name` varchar(100) NOT NULL,
-  `email` varchar(100) NOT NULL,
-  `password` varchar(255) NOT NULL,
-  `role` enum('buyer','seller') NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `winter_fruits`
 --
 
@@ -145,6 +166,13 @@ CREATE TABLE `winter_fruits` (
   `unit` enum('kg','dozen','item') NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `winter_fruits`
+--
+
+INSERT INTO `winter_fruits` (`id`, `seller_id`, `name`, `photo`, `price`, `quantity`, `unit`, `created_at`) VALUES
+(1, 5, 'Banana', './uploads/68405f8ab3005_5_1749049226.png', 30.00, 20, 'kg', '2025-06-04 15:00:26');
 
 --
 -- Indexes for dumped tables
@@ -162,6 +190,14 @@ ALTER TABLE `add_fruits`
 ALTER TABLE `buyers`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `email` (`email`);
+
+--
+-- Indexes for table `orders`
+--
+ALTER TABLE `orders`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_orders_buyer` (`buyer_id`),
+  ADD KEY `fk_orders_seller` (`seller_id`);
 
 --
 -- Indexes for table `rainy_fruits`
@@ -182,13 +218,6 @@ ALTER TABLE `summer_fruits`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `users`
---
-ALTER TABLE `users`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `email` (`email`);
-
---
 -- Indexes for table `winter_fruits`
 --
 ALTER TABLE `winter_fruits`
@@ -202,12 +231,18 @@ ALTER TABLE `winter_fruits`
 -- AUTO_INCREMENT for table `add_fruits`
 --
 ALTER TABLE `add_fruits`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `buyers`
 --
 ALTER TABLE `buyers`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `orders`
+--
+ALTER TABLE `orders`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
@@ -220,7 +255,7 @@ ALTER TABLE `rainy_fruits`
 -- AUTO_INCREMENT for table `sellers`
 --
 ALTER TABLE `sellers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `summer_fruits`
@@ -229,16 +264,21 @@ ALTER TABLE `summer_fruits`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `users`
---
-ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
 -- AUTO_INCREMENT for table `winter_fruits`
 --
 ALTER TABLE `winter_fruits`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `orders`
+--
+ALTER TABLE `orders`
+  ADD CONSTRAINT `fk_orders_buyer` FOREIGN KEY (`buyer_id`) REFERENCES `buyers` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `fk_orders_seller` FOREIGN KEY (`seller_id`) REFERENCES `sellers` (`id`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
