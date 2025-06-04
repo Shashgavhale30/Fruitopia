@@ -8,7 +8,7 @@ if (session_status() === PHP_SESSION_NONE) {
 
 // Database configuration for Fruitopia
 define('DB_HOST', 'localhost');
-define('DB_NAME', 'fruitopia');  // Your DB name
+define('DB_NAME', 'frutopia');  // Your DB name
 define('DB_USER', 'root');
 define('DB_PASS', '');
 define('DB_PORT', '3306');

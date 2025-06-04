@@ -3,12 +3,11 @@ session_start();
 
 // Database connection settings
 $host = 'localhost';
-$dbname = 'fruitopia';  // corrected dbname
+$dbname = 'frutopia';  // corrected dbname
 $dbuser = 'root';
 $dbpass = '';  // update if needed
 
 $errors = [];
-$success = "";
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $name = trim($_POST['name'] ?? '');
@@ -18,7 +17,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $role = $_POST['role'] ?? '';
     $address = trim($_POST['address'] ?? '');
     $bank_account = trim($_POST['bank_account'] ?? '');
-    $ifsc_code = trim($_POST['ifsc_code'] ?? '');
 
     // Validation
     if (!$name) $errors[] = "Name is required.";
@@ -28,8 +26,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($password !== $confirm_password) $errors[] = "Passwords do not match.";
     if (!$role || !in_array($role, ['seller', 'buyer'])) $errors[] = "Please select a valid role.";
     if (!$address) $errors[] = "Address is required.";
-    if ($role === 'seller' && (!$bank_account || !$ifsc_code)) {
-        $errors[] = "Bank Account and IFSC Code are required for sellers.";
+    if ($role === 'seller' && !$bank_account) {
+        $errors[] = "Bank Account is required for sellers.";
     }
 
     if (empty($errors)) {
@@ -46,14 +44,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $password_hash = password_hash($password, PASSWORD_DEFAULT);
 
                 if ($role === 'seller') {
-                    $stmt = $pdo->prepare("INSERT INTO sellers (name, email, password, address, bank_account, ifsc_code) VALUES (?, ?, ?, ?, ?, ?)");
-                    $stmt->execute([$name, $email, $password_hash, $address, $bank_account, $ifsc_code]);
+                    $stmt = $pdo->prepare("INSERT INTO sellers (name, email, password, address, bank_account) VALUES (?, ?, ?, ?, ?)");
+                    $stmt->execute([$name, $email, $password_hash, $address, $bank_account]);
                 } else {
                     $stmt = $pdo->prepare("INSERT INTO buyers (name, email, password, address) VALUES (?, ?, ?, ?)");
                     $stmt->execute([$name, $email, $password_hash, $address]);
                 }
 
-                $success = "Registration successful! You can now <a href='login.php'>login</a>.";
+                // Redirect to login page after successful registration
+                header("Location: login.php");
+                exit();
             }
         } catch (PDOException $e) {
             $errors[] = "Database error: " . $e->getMessage();
@@ -101,10 +101,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <?php endforeach; ?>
                 </ul>
             </div>
-        <?php endif; ?>
-
-        <?php if ($success): ?>
-            <div style="color: green; margin-bottom: 1rem;"><?= $success ?></div>
         <?php endif; ?>
 
         <form action="register.php" method="POST" autocomplete="off" novalidate>
@@ -161,16 +157,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         name="bank_account"
                         class="form-control"
                         value="<?= htmlspecialchars($_POST['bank_account'] ?? '') ?>"
-                    />
-                </div>
-
-                <div class="mb-3">
-                    <label for="ifsc_code" class="form-label">IFSC Code</label>
-                    <input
-                        type="text"
-                        name="ifsc_code"
-                        class="form-control"
-                        value="<?= htmlspecialchars($_POST['ifsc_code'] ?? '') ?>"
                     />
                 </div>
             </div>

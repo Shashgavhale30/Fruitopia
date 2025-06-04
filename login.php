@@ -15,9 +15,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if (!empty($email) && !empty($password)) {
         try {
-            $stmt = $pdo->prepare("SELECT id, name, password, role FROM users WHERE email = ?");
+            // Check sellers table
+            $stmt = $pdo->prepare("SELECT id, name, password, 'seller' AS role FROM sellers WHERE email = ?");
             $stmt->execute([$email]);
             $user = $stmt->fetch();
+
+            // If not found in sellers, check buyers table
+            if (!$user) {
+                $stmt = $pdo->prepare("SELECT id, name, password, 'buyer' AS role FROM buyers WHERE email = ?");
+                $stmt->execute([$email]);
+                $user = $stmt->fetch();
+            }
 
             if ($user && password_verify($password, $user['password'])) {
                 login_user($user['id'], $user['name'], $user['role']);
