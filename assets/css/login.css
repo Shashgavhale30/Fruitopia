@@ -1,4 +1,4 @@
-/* Simple CSS for Login & Register - Green Theme */
+/* Clean & Modern CSS for Login & Register - Fruitopia */
 
 * {
     margin: 0;
@@ -7,20 +7,25 @@
 }
 
 :root {
-    --dark-green: #18230F;
-    --forest-green: #27391C;
-    --accent-green: #1F7D53;
-    --light-green: #255F38;
-    --text-light: #e0e0e0;
-    --text-muted: #b0b0b0;
-    --border-color: #355c2d;
+    --primary-green: #141f0c;
+    --secondary-green: #4F7942;
+    --accent-green: #6B8E23;
+    --light-green: #8FBC8F;
+    --success-green: #28A745;
+    --dark-text: #2C3E50;
+    --light-text: #ffffff;
+    --muted-text: #6C757D;
+    --error-red: #DC3545;
+    --border-light: #E9ECEF;
+    --background-light: #F8F9FA;
+    --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 body {
-    font-family: 'Inter', system-ui, sans-serif;
-    background: linear-gradient(135deg, var(--dark-green) 0%, var(--forest-green) 100%);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, var(--primary-green) 0%, var(--secondary-green) 100%);
     min-height: 100vh;
-    color: var(--text-light);
+    color: var(--dark-text);
     padding-top: 70px;
 }
 
@@ -31,25 +36,33 @@ body {
     left: 0;
     right: 0;
     height: 70px;
-    background: var(--forest-green);
+    background: rgba(45, 80, 22, 0.95);
+    backdrop-filter: blur(10px);
     display: flex;
     align-items: center;
     padding: 0 2rem;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    box-shadow: var(--shadow);
     z-index: 1000;
 }
 
 .navbar-brand {
     font-size: 1.5rem;
-    color: var(--text-light);
+    color: var(--light-text);
     text-decoration: none;
     display: flex;
     align-items: center;
     gap: 0.5rem;
+    font-weight: 600;
+    transition: color 0.3s ease;
+}
+
+.navbar-brand:hover {
+    color: var(--light-green);
 }
 
 .navbar-brand i {
     color: var(--accent-green);
+    font-size: 1.8rem;
 }
 
 /* Main Container */
@@ -61,39 +74,39 @@ body {
     padding: 2rem;
 }
 
-/* Card */
+/* Auth Card */
 .auth-card {
-    background: rgba(224, 240, 224, 0.95);
-    border-radius: 15px;
-    padding: 2rem;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 3rem;
     width: 100%;
-    max-width: 400px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-    border: 1px solid var(--border-color);
-    color: var(--dark-green);
+    max-width: 500px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
 /* Brand Logo */
 .brand-wrapper {
     text-align: center;
-    margin-bottom: 2rem;
+    margin-bottom: 2.5rem;
 }
 
 .brand-logo {
-    width: 70px;
-    height: 70px;
-    background: linear-gradient(135deg, var(--accent-green), var(--light-green));
-    border-radius: 12px;
+    width: 80px;
+    height: 80px;
+    background: linear-gradient(135deg, var(--accent-green), var(--success-green));
+    border-radius: 20px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    margin-bottom: 1rem;
-    box-shadow: 0 4px 15px rgba(31, 125, 83, 0.3);
+    margin-bottom: 1.5rem;
+    box-shadow: 0 6px 20px rgba(107, 142, 35, 0.4);
 }
 
 /* Headings */
 h2 {
-    color: var(--dark-green);
+    color: var(--dark-text);
     font-size: 1.5rem;
     font-weight: 600;
     margin-bottom: 1.5rem;
@@ -102,87 +115,140 @@ h2 {
 
 /* Form Styles */
 .mb-3 {
-    margin-bottom: 1rem;
+    margin-bottom: 1.2rem;
 }
 
 .form-label {
     display: block;
     margin-bottom: 0.5rem;
     font-weight: 500;
-    color: var(--dark-green);
+    color: var(--dark-text);
+    font-size: 0.9rem;
 }
 
-.form-control {
+/* Target all input types and form controls */
+.form-control,
+input[type="text"],
+input[type="email"],
+input[type="password"],
+select,
+textarea {
     width: 100%;
-    padding: 0.75rem;
-    border: 2px solid var(--border-color);
-    border-radius: 8px;
-    background: rgba(39, 57, 28, 0.1);
-    color: var(--dark-green);
-    font-size: 1rem;
+    padding: 16px 20px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.9);
+    color: var(--dark-text);
+    font-size: 16px;
+    font-family: inherit;
     transition: all 0.3s ease;
+    box-sizing: border-box;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    min-height: 55px;
 }
 
-.form-control::placeholder {
-    color: var(--text-muted);
+.form-control::placeholder,
+input::placeholder,
+textarea::placeholder {
+    color: var(--muted-text);
+    opacity: 1;
 }
 
-.form-control:focus {
+.form-control:focus,
+input:focus,
+select:focus,
+textarea:focus {
     outline: none;
-    border-color: var(--accent-green);
-    box-shadow: 0 0 0 3px rgba(31, 125, 83, 0.2);
-    background: rgba(39, 57, 28, 0.15);
+    border-color: var(--light-green);
+    background: white;
+    box-shadow: 0 0 0 4px rgba(143, 188, 143, 0.2);
+    transform: translateY(-1px);
+}
+
+/* Select Dropdown */
+select.form-control,
+select {
+    cursor: pointer;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
+    background-position: right 12px center;
+    background-repeat: no-repeat;
+    background-size: 16px;
+    padding-right: 40px;
+}
+
+/* Textarea */
+textarea.form-control,
+textarea {
+    resize: vertical;
+    min-height: 80px;
+    font-family: inherit;
+    line-height: 1.5;
 }
 
 /* Button */
 .btn-auth {
     width: 100%;
-    padding: 0.75rem;
-    background: linear-gradient(135deg, var(--accent-green), var(--light-green));
+    padding: 16px;
+    background: linear-gradient(135deg, var(--accent-green), var(--success-green));
     color: white;
     border: none;
-    border-radius: 8px;
-    font-size: 1rem;
+    border-radius: 12px;
+    font-size: 18px;
     font-weight: 600;
     cursor: pointer;
     transition: all 0.3s ease;
-    margin-top: 1rem;
+    margin-top: 1.5rem;
+    box-shadow: 0 4px 15px rgba(107, 142, 35, 0.3);
+    min-height: 55px;
 }
 
 .btn-auth:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(31, 125, 83, 0.4);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(107, 142, 35, 0.4);
 }
 
-/* Messages */
-.error-message {
+.btn-auth:active {
+    transform: translateY(0);
+}
+
+/* Error Messages */
+.auth-card div[style*="color: #b00020"] {
     background: rgba(220, 53, 69, 0.1);
-    color: #dc3545;
-    padding: 0.75rem;
+    color: var(--error-red) !important;
+    padding: 1rem;
     border-radius: 8px;
     margin-bottom: 1rem;
-    border: 1px solid #dc3545;
+    border-left: 4px solid var(--error-red);
 }
 
-.success-message {
-    background: rgba(31, 125, 83, 0.1);
-    color: var(--accent-green);
-    padding: 0.75rem;
-    border-radius: 8px;
-    margin-bottom: 1rem;
-    border: 1px solid var(--accent-green);
-}
-
-.error-message ul {
+.auth-card ul {
     margin: 0;
     padding-left: 1.2rem;
+}
+
+.auth-card ul li {
+    margin-bottom: 0.3rem;
+    font-size: 0.9rem;
+}
+
+/* Success Messages */
+.success-message {
+    background: rgba(40, 167, 69, 0.1);
+    color: var(--success-green);
+    padding: 1rem;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    border-left: 4px solid var(--success-green);
 }
 
 /* Links */
 p {
     text-align: center;
     margin-top: 1.5rem;
-    color: var(--dark-green);
+    color: var(--muted-text);
+    font-size: 0.9rem;
 }
 
 a {
@@ -192,8 +258,14 @@ a {
 }
 
 a:hover {
-    color: var(--light-green);
+    color: var(--success-green);
     text-decoration: underline;
+}
+
+/* Seller Fields Animation */
+#seller-extra-fields {
+    transition: all 0.3s ease;
+    overflow: hidden;
 }
 
 /* Wave Background */
@@ -204,8 +276,8 @@ a:hover {
     width: 100%;
     height: 100vh;
     z-index: -1;
-    opacity: 0.1;
-    background: url('data:image/svg+xml;utf8,<svg viewBox="0 0 1440 320" xmlns="http://www.w3.org/2000/svg"><path fill="%231F7D53" d="M0,128L48,138.7C96,149,192,171,288,170.7C384,171,480,149,576,128C672,107,768,85,864,96C960,107,1056,149,1152,160C1248,171,1344,149,1392,138.7L1440,128L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>') repeat-x;
+    opacity: 0.08;
+    background: url('data:image/svg+xml;utf8,<svg viewBox="0 0 1440 320" xmlns="http://www.w3.org/2000/svg"><path fill="%236B8E23" d="M0,128L48,138.7C96,149,192,171,288,170.7C384,171,480,149,576,128C672,107,768,85,864,96C960,107,1056,149,1152,160C1248,171,1344,149,1392,138.7L1440,128L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>') repeat-x;
     animation: wave 20s linear infinite;
 }
 
@@ -215,13 +287,13 @@ a:hover {
 }
 
 /* Responsive Design */
-@media (max-width: 480px) {
+@media (max-width: 640px) {
     .auth-container {
         padding: 1rem;
     }
     
     .auth-card {
-        padding: 1.5rem;
+        padding: 2rem 1.5rem;
     }
     
     .brand-logo {
@@ -235,5 +307,32 @@ a:hover {
     
     h2 {
         font-size: 1.3rem;
+    }
+    
+    .navbar-brand {
+        font-size: 1.3rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .auth-card {
+        padding: 1.5rem 1rem;
+    }
+    
+    .brand-logo {
+        width: 55px;
+        height: 55px;
+    }
+    
+    h2 {
+        font-size: 1.2rem;
+    }
+    
+    .form-control {
+        padding: 0.7rem 0.8rem;
+    }
+    
+    .btn-auth {
+        padding: 0.8rem;
     }
 }

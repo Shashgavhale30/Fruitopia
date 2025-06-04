@@ -35,7 +35,7 @@ $orders = $stmt->fetchAll();
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>My Orders - Fruitopia</title>
-<link rel="stylesheet" href="assets/css/homepage.css" />
+<link rel="stylesheet" href="assets/css/order.css" />
 </head>
 <body>
 <header>

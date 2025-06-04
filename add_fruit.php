@@ -10,7 +10,6 @@ $seller_id = $_SESSION['user_id'];
 $season = $_GET['season'] ?? 'summer';
 $error = '';
 $success = '';
-$added_fruit = null;
 
 if (!isset($_SESSION['csrf_token'])) {
     $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
@@ -78,14 +77,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 $stmt->execute([$seller_id, $name, $dest_path, $quantity, $price, $unit]);
 
                                 $success = "Fruit added successfully!";
-                                $added_fruit = [
-                                    'photo' => $dest_path,
-                                    'name' => $name,
-                                    'price' => $price,
-                                    'unit' => $unit,
-                                    'quantity' => $quantity
-                                ];
-
                                 $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
                             } catch (PDOException $e) {
                                 error_log("Add fruit error for $tableName: " . $e->getMessage());
@@ -148,24 +139,6 @@ try {
                 <div class="error-message"><?php echo htmlspecialchars($error); ?></div>
             <?php elseif ($success): ?>
                 <div class="success-message"><?php echo htmlspecialchars($success); ?></div>
-                <?php if ($added_fruit): ?>
-                    <div class="added-fruit-display">
-                        <img src="<?php echo htmlspecialchars($added_fruit['photo']); ?>" alt="<?php echo htmlspecialchars($added_fruit['name']); ?>" />
-                        <h3><?php echo htmlspecialchars($added_fruit['name']); ?></h3>
-                        <div class="quantity-display">Quantity: <?php echo htmlspecialchars($added_fruit['quantity']); ?></div>
-                        <div class="price-display">
-                            ₹<?php echo number_format($added_fruit['price'], 2); ?>
-                            <?php 
-                                $units_map = [
-                                    'kg' => 'per kg',
-                                    'dozen' => 'per dozen', 
-                                    'item' => 'per item',
-                                ];
-                                echo $units_map[$added_fruit['unit']] ?? '';
-                            ?>
-                        </div>
-                    </div>
-                <?php endif; ?>
             <?php endif; ?>
 
             <form method="POST" enctype="multipart/form-data" autocomplete="off" id="addFruitForm">
@@ -213,7 +186,7 @@ try {
             </form>
 
             <p>
-                <a href="seller_dashboard.php">← Back to Dashboard</a>
+                <a class="back-btn" href="seller_dashboard.php">←Back</a>
             </p>
         </div>
     </main>

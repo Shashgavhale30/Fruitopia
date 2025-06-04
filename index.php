@@ -1,3 +1,43 @@
+<?php
+// DB connection (update with your actual credentials)
+$host = 'localhost';
+$db = 'frutopia'; 
+$user = 'root';
+$pass = '';
+$charset = 'utf8mb4';
+
+$dsn = "mysql:host=$host;dbname=$db;charset=$charset";
+$options = [
+    PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
+    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+    PDO::ATTR_EMULATE_PREPARES   => false,
+];
+
+try {
+    $pdo = new PDO($dsn, $user, $pass, $options);
+} catch (PDOException $e) {
+    echo "DB Connection failed: " . $e->getMessage();
+    exit;
+}
+
+function fetchFruitsBySeason($pdo, $seasonTable) {
+    $allowedTables = ['summer_fruits', 'rainy_fruits', 'winter_fruits'];
+    if (!in_array($seasonTable, $allowedTables)) {
+        return [];
+    }
+
+    $sql = "SELECT name, photo, quantity, unit FROM $seasonTable ORDER BY created_at DESC";
+    $stmt = $pdo->query($sql);
+    return $stmt->fetchAll();
+}
+
+$seasons = [
+    'summer_fruits' => 'Summer',
+    'rainy_fruits' => 'Rainy',
+    'winter_fruits' => 'Winter',
+];
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -17,42 +57,11 @@
                 <div class="logo">FRUITOPIA</div>
             </div>
             <div class="location">
-                <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="16"
-                    height="16"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                >
-                    <path
-                        d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"
-                    ></path>
-                    <circle cx="12" cy="10" r="3"></circle>
-                </svg>
                 Location
             </div>
         </div>
         <nav class="nav-bar">
             <div class="search-container">
-                <svg
-                    class="search-icon"
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="16"
-                    height="16"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    viewBox="0 0 24 24"
-                >
-                    <circle cx="11" cy="11" r="8"></circle>
-                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-                </svg>
                 <input
                     type="text"
                     placeholder="Search for product"
@@ -61,47 +70,14 @@
             </div>
             <div class="nav-actions">
                 <!-- Login button -->
-                <div class="login-btn">
+                <div class="btn login-btn">
                     <a href="login.php" class="btn-login">
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="16"
-                            height="16"
-                            fill="none"
-                            stroke="currentColor"
-                            stroke-width="2"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            viewBox="0 0 24 24"
-                        >
-                            <path
-                                d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"
-                            ></path>
-                            <circle cx="12" cy="7" r="4"></circle>
-                        </svg>
                         <span>Login</span>
                     </a>
                 </div>
 
                 <!-- Shop button -->
-                <div class="shop-btn">
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="16"
-                        height="16"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        viewBox="0 0 24 24"
-                    >
-                        <circle cx="9" cy="21" r="1"></circle>
-                        <circle cx="20" cy="21" r="1"></circle>
-                        <path
-                            d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"
-                        ></path>
-                    </svg>
+                <div class="btn shop-btn">
                     Shop
                 </div>
             </div>
@@ -148,6 +124,39 @@
                 </div>
             </div>
         </section>
+
+        <!-- Added fruits section -->
+        <section class="all-fruits">
+            <h2>All Added Fruits</h2>
+
+            <?php foreach ($seasons as $table => $seasonName): 
+                $fruits = fetchFruitsBySeason($pdo, $table);
+                if (count($fruits) === 0) {
+                    echo "<p>No fruits found in {$seasonName} season.</p>";
+                    continue; 
+                }
+            ?>
+                <h3><?php echo htmlspecialchars($seasonName); ?> Fruits</h3>
+                <div class="fruits-grid">
+                    <?php foreach ($fruits as $fruit): ?>
+                        <div class="fruit-card">
+    <img src="<?php echo htmlspecialchars($fruit['photo']); ?>" alt="<?php echo htmlspecialchars($fruit['name']); ?>" />
+    <h4><?php echo htmlspecialchars($fruit['name']); ?></h4>
+    <p>Quantity: <?php echo intval($fruit['quantity']) . ' ' . htmlspecialchars($fruit['unit']); ?></p>
+    <?php if (isset($_SESSION['user_id'])): ?>
+        <!-- User logged in, go to order page with fruit name as parameter -->
+        <a href="order.php?fruit=<?php echo urlencode($fruit['name']); ?>" class="order-btn">Order</a>
+    <?php else: ?>
+        <!-- Not logged in, redirect to login -->
+        <a href="login.php" class="order-btn">Order</a>
+    <?php endif; ?>
+</div>
+
+                    <?php endforeach; ?>
+                </div>
+            <?php endforeach; ?>
+        </section>
+        
     </main>
     <script src="assets/js/homepage.js"></script>
 </body>
