@@ -2,6 +2,11 @@
 // auth.php - Authentication Functions
 require_once __DIR__ . '/config.php';
 
+// Start session if not already started
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
 function is_logged_in() {
     return isset($_SESSION['user_id'], $_SESSION['role'], $_SESSION['username']);
 }
@@ -65,6 +70,6 @@ function validate_csrf_token($token) {
            hash_equals($_SESSION['csrf_token'], $token);
 }
 
-// Optional auto checks
+// Auto checks on include
 check_session_timeout();
 generate_csrf_token();

@@ -1,11 +1,8 @@
 <?php
-require_once 'config.php';
-require_once 'auth.php';
+require_once 'includes/config.php';
+require_once 'includes/auth.php';
 
-if (is_logged_in()) {
-    $redirect = ($_SESSION['role'] === 'seller') ? 'seller_dashboard.php' : 'buyer_dashboard.php';
-    redirect($redirect);
-}
+// No need to redefine is_logged_in() here — use the one from auth.php
 
 $error = '';
 
@@ -15,21 +12,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if (!empty($email) && !empty($password)) {
         try {
-            // Check sellers table
-            $stmt = $pdo->prepare("SELECT id, name, password, 'seller' AS role FROM sellers WHERE email = ?");
+            // Check sellers
+            $stmt = $pdo->prepare("SELECT id, name, password FROM sellers WHERE email = ?");
             $stmt->execute([$email]);
-            $user = $stmt->fetch();
+            $user = $stmt->fetch(PDO::FETCH_ASSOC);
+            $role = 'seller';
 
-            // If not found in sellers, check buyers table
             if (!$user) {
-                $stmt = $pdo->prepare("SELECT id, name, password, 'buyer' AS role FROM buyers WHERE email = ?");
+                // Check buyers
+                $stmt = $pdo->prepare("SELECT id, name, password FROM buyers WHERE email = ?");
                 $stmt->execute([$email]);
-                $user = $stmt->fetch();
+                $user = $stmt->fetch(PDO::FETCH_ASSOC);
+                $role = 'buyer';
             }
 
             if ($user && password_verify($password, $user['password'])) {
-                login_user($user['id'], $user['name'], $user['role']);
-                $redirect = ($user['role'] === 'seller') ? 'seller_dashboard.php' : 'buyer_dashboard.php';
+                login_user($user['id'], $user['name'], $role);
+                $redirect = ($role === 'seller') ? 'seller_dashboard.php' : 'buyer_dashboard.php';
                 redirect($redirect);
             } else {
                 $error = "Invalid email or password.";
@@ -55,59 +54,32 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <body>
     <nav class="portal-navbar">
         <a href="#" class="navbar-brand">
-            <i class="fa fa-apple-whole"></i> Fruitopia
+            Fruitopia
         </a>
     </nav>
 
     <div class="auth-container">
         <div class="auth-card">
-            <div class="brand-wrapper">
-                <div class="brand-logo">
-                    <i class="fa fa-apple-whole" style="color:white; font-size: 2.5rem;"></i>
-                </div>
-            </div>
-
             <h2 style="text-align:center; margin-bottom: 1.5rem;">Login to Your Account</h2>
 
-            <?php if (!empty($error)): ?>
+            <?php if ($error): ?>
                 <p style="color:red; text-align:center;"><?php echo htmlspecialchars($error); ?></p>
             <?php endif; ?>
 
             <form method="POST" autocomplete="off">
-                <div class="mb-3">
-                    <label for="email" class="form-label">Email address</label>
-                    <input
-                        type="email"
-                        id="email"
-                        name="email"
-                        class="form-control"
-                        placeholder="Enter your email"
-                        required
-                    />
-                </div>
+                <label for="email">Email address</label><br />
+                <input type="email" id="email" name="email" placeholder="Enter your email" required /><br /><br />
 
-                <div class="mb-3">
-                    <label for="password" class="form-label">Password</label>
-                    <input
-                        type="password"
-                        id="password"
-                        name="password"
-                        class="form-control"
-                        placeholder="Enter your password"
-                        required
-                    />
-                </div>
+                <label for="password">Password</label><br />
+                <input type="password" id="password" name="password" placeholder="Enter your password" required /><br /><br />
 
                 <button type="submit" class="btn-auth">Login</button>
             </form>
 
             <p style="margin-top: 1rem; text-align: center;">
-                Don't have an account?
-                <a href="register.php" style="color: var(--accent-400); font-weight: 600;">Register here</a>
+                Don't have an account? <a href="register.php">Register here</a>
             </p>
         </div>
     </div>
-
-    <div class="wave-bg"></div>
 </body>
 </html>
