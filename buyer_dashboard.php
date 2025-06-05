@@ -2,6 +2,11 @@
 require_once 'includes/auth.php';
 require_once 'includes/config.php';
 
+if (!isset($_SESSION['login_user'])) {
+    header("Location: login.php");
+    exit();
+}
+
 if (!is_logged_in() || $_SESSION['role'] !== 'buyer') {
     redirect('login.php');
 }
@@ -42,7 +47,7 @@ $seasons = [
 <header>
     <div class="top-bar">
         <div class="logo-container">
-            <div class="logo">FRUITOPIA</div>
+            <div class="logo"><a href="index.php">FRUITOPIA</a></div>
         </div>
         <div class="location">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" stroke="currentColor"

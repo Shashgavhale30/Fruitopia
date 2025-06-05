@@ -53,8 +53,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </head>
 <body>
     <nav class="portal-navbar">
-        <a href="#" class="navbar-brand">
-            Fruitopia
+        <a href="index.php" class="navbar-brand">
+            FRUITOPIA
         </a>
     </nav>
 

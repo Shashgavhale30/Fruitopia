@@ -2,6 +2,11 @@
 require_once 'includes/auth.php';
 require_once 'includes/config.php';
 
+if (!isset($_SESSION['login_user'])) {
+    header("Location: login.php");
+    exit();
+}
+
 if (!is_logged_in() || $_SESSION['role'] !== 'seller') {
     redirect('login.php');
 }
@@ -108,7 +113,7 @@ try {
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Add Fruit - <?php echo ucfirst($season); ?> | Fruitopia</title>
+    <title>Add Fruit - <?php echo ucfirst($season); ?> | <a href="index.php">Fruitopia</a></title>
     <link rel="stylesheet" href="assets/css/add_fruit.css" />
 </head>
 <body>

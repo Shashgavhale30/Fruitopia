@@ -2,6 +2,11 @@
 require_once 'includes/auth.php';
 require_once 'includes/config.php';
 
+if (!isset($_SESSION['login_user'])) {
+    header("Location: login.php");
+    exit();
+}
+
 if (!is_logged_in() || $_SESSION['role'] !== 'buyer') {
     redirect('login.php');
 }

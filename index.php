@@ -6,6 +6,7 @@ $user = 'root';
 $pass = '';
 $charset = 'utf8mb4';
 
+
 $dsn = "mysql:host=$host;dbname=$db;charset=$charset";
 $options = [
     PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
@@ -54,7 +55,7 @@ $seasons = [
     <header>
         <div class="top-bar">
             <div class="logo-container">
-                <div class="logo">FRUITOPIA</div>
+                <div class="logo"><a href="index.php">FRUITOPIA</a></div>
             </div>
             <div class="location">
                 Location
