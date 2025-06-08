@@ -6,21 +6,39 @@
 }
 
 :root {
-  --dark-bg: #0a1208;
-  --dark-secondary: #152011;
-  --primary-green: #2d7a3f;
-  --accent-green: #238a3a;
-  --text-light: #d9f0d9;
-  --text-muted: #a4b09a;
-  --error-red: #d14242;
-  --border-color: #334422;
-  --hover-bg: #2d7a3f;
-  --btn-hover-bg: #1f5b27;
+  /* Updated Color Palette to match homepage */
+  --primary-green: #5A827E;        /* Deep sage green */
+  --medium-green: #84AE92;         /* Fresh forest green */
+  --light-green: #B9D4AA;          /* Soft mint green */
+  --cream-yellow: #FAFFCA;         /* Warm cream */
+  --dark-green: #4A6B67;           /* Darker sage for accents */
+  --forest-deep: #6B9B87;          /* Rich forest tone */
+  --sage-light: #C8E6C9;           /* Very light sage */
+  --earth-brown: #8D6E63;          /* Warm earth brown */
+  --warm-beige: #F5F5DC;           /* Natural beige */
+  --soft-olive: #9CAF88;           /* Gentle olive */
+  
+  /* Light Pink Colors */
+  --light-pink: #FFE4E6;           /* Soft light pink */
+  --rose-pink: #FFADB5;            /* Rose pink */
+  --blush-pink: #FFD6D9;           /* Blush pink */
+  --coral-pink: #FF9AA2;           /* Coral pink */
+  --peachy-pink: #FFCCCB;          /* Peachy pink */
+  
+  /* Background & Text Colors */
+  --dark-bg: #F8FDF8;              /* Very light green-white */
+  --dark-secondary: #F0F8F0;       /* Soft green tint */
+  --text-light: #2E3A2E;           /* Dark forest green text */
+  --text-muted: #4A5A4A;           /* Medium green-gray text */
+  --error-red: #FF6B6B;            /* Softer red */
+  --border-color: #B9D4AA;         /* Soft mint green border */
+  --hover-bg: rgba(255, 154, 162, 0.1);  /* Light coral hover */
+  --btn-hover-bg: #4A6B67;         /* Darker sage hover */
 }
 
 body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: var(--dark-bg);
+  font-family: "Comic Neue", "Poppins", 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(135deg, var(--dark-bg) 0%, var(--light-pink) 20%, var(--dark-secondary) 50%, var(--blush-pink) 80%, var(--sage-light) 100%);
   color: var(--text-light);
   line-height: 1.5;
   padding: 0 1rem 2rem;
@@ -29,16 +47,18 @@ body {
 
 /* Header and Navigation */
 header {
-  background-color: var(--dark-secondary);
+  background: linear-gradient(135deg, rgba(248, 253, 248, 0.95) 0%, rgba(255, 228, 230, 0.9) 100%);
+  backdrop-filter: blur(20px);
   padding: 1rem 1.5rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
   color: var(--text-light);
-  box-shadow: 0 2px 6px rgba(0,0,0,0.6);
+  box-shadow: 0 4px 20px rgba(90, 130, 126, 0.3);
   position: sticky;
   top: 0;
   z-index: 1000;
+  border-bottom: 3px solid var(--primary-green);
 }
 
 .logo {
@@ -46,6 +66,7 @@ header {
   font-size: 1.5rem;
   color: var(--primary-green);
   text-decoration: none;
+  font-family: "Comic Neue", cursive;
 }
 
 .nav-bar {
@@ -64,6 +85,16 @@ header {
   color: var(--text-light);
   font-weight: 600;
   font-size: 0.9rem;
+  padding: 8px 16px;
+  border-radius: 20px;
+  background: linear-gradient(135deg, var(--medium-green), var(--light-green));
+  border: 2px solid var(--medium-green);
+  transition: all 0.3s ease;
+}
+
+.profile-icon:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(132, 174, 146, 0.4);
 }
 
 .chevron-down {
@@ -73,11 +104,12 @@ header {
 
 /* Dropdown */
 .profile-dropdown {
-  background: var(--dark-secondary);
-  border: 1px solid var(--border-color);
+  background: rgba(248, 253, 248, 0.95);
+  backdrop-filter: blur(20px);
+  border: 2px solid var(--primary-green);
   padding: 8px 0;
-  border-radius: 5px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.7);
+  border-radius: 15px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
   min-width: 140px;
   position: absolute;
   right: 0;
@@ -93,11 +125,12 @@ header {
   text-decoration: none;
   font-weight: 500;
   transition: background-color 0.2s ease;
-  border-radius: 0 0 5px 5px;
+  border-radius: 13px;
+  margin: 4px;
 }
 
 .profile-dropdown a:hover {
-  background-color: var(--primary-green);
+  background: linear-gradient(135deg, var(--coral-pink), var(--rose-pink));
   color: white;
 }
 
@@ -114,20 +147,22 @@ h1 {
   margin-bottom: 1.5rem;
   font-size: 2rem;
   text-align: center;
+  font-family: "Comic Neue", cursive;
 }
 
 /* Table styling */
 table {
   width: 100%;
   border-collapse: collapse;
-  background-color: var(--dark-secondary);
-  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 16px;
   overflow: hidden;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  border: 2px solid var(--medium-green);
 }
 
 thead tr {
-  background-color: var(--primary-green);
+  background: linear-gradient(135deg, var(--primary-green), var(--medium-green));
   color: white;
 }
 
@@ -140,9 +175,9 @@ th, td {
 }
 
 tbody tr:hover {
-  background-color: var(--hover-bg);
+  background: var(--hover-bg);
   cursor: default;
-  color: #fff;
+  color: var(--text-light);
 }
 
 /* Align numbers right */
@@ -158,28 +193,35 @@ button {
   font-weight: 600;
   font-size: 0.85rem;
   border: none;
-  border-radius: 5px;
+  border-radius: 20px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: all 0.3s ease;
   user-select: none;
+  font-family: "Comic Neue", cursive;
 }
 
 button[type="submit"] {
-  background-color: var(--primary-green);
+  background: linear-gradient(135deg, var(--primary-green), var(--medium-green));
   color: white;
+  box-shadow: 0 4px 15px rgba(90, 130, 126, 0.4);
 }
 
 button[type="submit"]:hover {
-  background-color: var(--btn-hover-bg);
+  background: linear-gradient(135deg, var(--btn-hover-bg), var(--dark-green));
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(90, 130, 126, 0.5);
 }
 
 button.cancel-btn {
-  background-color: var(--error-red);
+  background: linear-gradient(135deg, var(--error-red), var(--coral-pink));
   color: white;
+  box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4);
 }
 
 button.cancel-btn:hover {
-  background-color: #a93030;
+  background: linear-gradient(135deg, #e55555, var(--error-red));
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(255, 107, 107, 0.5);
 }
 
 /* Forms in table cells */
@@ -198,10 +240,18 @@ header > a {
   text-decoration: none;
   margin-right: auto;
   font-size: 1rem;
+  padding: 8px 16px;
+  border-radius: 20px;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
 }
 
 header > a:hover {
-  text-decoration: underline;
+  background: linear-gradient(135deg, var(--light-pink), var(--blush-pink));
+  border-color: var(--rose-pink);
+  text-decoration: none;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(255, 173, 181, 0.4);
 }
 
 /* Responsive */
@@ -216,9 +266,11 @@ header > a:hover {
   }
   tr {
     margin-bottom: 1rem;
-    border-radius: 10px;
-    background-color: var(--dark-secondary);
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.95);
     padding: 1rem;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    border: 2px solid var(--medium-green);
   }
   td {
     border: none;

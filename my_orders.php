@@ -2,7 +2,7 @@
 require_once 'includes/auth.php';
 require_once 'includes/config.php';
 
-if (!isset($_SESSION['login_user'])) {
+if (!isset($_SESSION['user_id'])) {
     header("Location: login.php");
     exit();
 }
@@ -76,36 +76,42 @@ $orders = $stmt->fetchAll();
     <?php else: ?>
         <table class="orders-table" style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
             <thead>
-                <tr>
-                    <th style="border-bottom: 2px solid #ddd; padding: 10px; text-align: left;">Fruit</th>
-                    <th style="border-bottom: 2px solid #ddd; padding: 10px; text-align: right;">Quantity</th>
-                    <th style="border-bottom: 2px solid #ddd; padding: 10px; text-align: right;">Price (₹)</th>
-                    <th style="border-bottom: 2px solid #ddd; padding: 10px; text-align: left;">Season</th>
-                    <th style="border-bottom: 2px solid #ddd; padding: 10px; text-align: left;">Status</th>
-                    <th style="border-bottom: 2px solid #ddd; padding: 10px; text-align: left;">Ordered On</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php foreach ($orders as $order): ?>
-                <tr>
-                    <td style="padding: 10px;"><?php echo htmlspecialchars($order['fruit_name']); ?></td>
-                    <td style="padding: 10px; text-align: right;"><?php echo (int)$order['quantity']; ?></td>
-                    <td style="padding: 10px; text-align: right;"><?php echo number_format($order['price'], 2); ?></td>
-                    <td style="padding: 10px;"><?php echo htmlspecialchars(ucfirst($order['season'])); ?></td>
-                    <td style="padding: 10px;">
-                        <?php echo htmlspecialchars(ucfirst($order['status'])); ?>
-                        <?php if (strtolower($order['status']) !== 'cancelled'): ?>
-                            <form method="POST" onsubmit="return confirm('Cancel this order?');" style="margin-top: 5px;">
-                                <input type="hidden" name="cancel_order_id" value="<?php echo $order['id']; ?>">
-                                <button type="submit" style="padding: 4px 10px; color: white; background-color: red; border: none; border-radius: 4px;">Cancel</button>
-                            </form>
-                        <?php endif; ?>
-                    </td>
-                    <td style="padding: 10px;"><?php echo htmlspecialchars($order['order_date']); ?></td>
-                </tr>
-                <?php endforeach; ?>
-            </tbody>
-        </table>
+    <tr>
+        <th style="border-bottom: 2px solid #ddd; padding: 10px; text-align: center;">Fruit</th>
+        <th style="border-bottom: 2px solid #ddd; padding: 10px; text-align: center;">Quantity</th>
+        <th style="border-bottom: 2px solid #ddd; padding: 10px; text-align: center;">Price (₹)</th>
+        <th style="border-bottom: 2px solid #ddd; padding: 10px; text-align: center;">Total Price (₹)</th> <!-- new column -->
+        <th style="border-bottom: 2px solid #ddd; padding: 10px; text-align: center;">Season</th>
+        <th style="border-bottom: 2px solid #ddd; padding: 10px; text-align: center;">Status</th>
+        <th style="border-bottom: 2px solid #ddd; padding: 10px; text-align: center;">Ordered On</th>
+    </tr>
+</thead>
+<tbody>
+    <?php foreach ($orders as $order): ?>
+    <tr>
+        <td style="padding: 10px;"><?php echo htmlspecialchars($order['fruit_name']); ?></td>
+        <td style="padding: 10px; text-align: center;"><?php echo (int)$order['quantity']; ?></td>
+        <td style="padding: 10px; text-align: center;"><?php echo number_format($order['price'], 2); ?></td>
+        <td style="padding: 10px; text-align: center;">
+            <?php 
+                $total_price = $order['quantity'] * $order['price'];
+                echo number_format($total_price, 2);
+            ?>
+        </td>
+        <td style="padding: 10px; text-align: center;"><?php echo htmlspecialchars(ucfirst($order['season'])); ?></td>
+        <td style="padding: 10px; text-align: center;">
+            <?php echo htmlspecialchars(ucfirst($order['status'])); ?>
+            <?php if (strtolower($order['status']) !== 'cancelled'): ?>
+                <form method="POST" onsubmit="return confirm('Cancel this order?');" style="margin-top: 5px;">
+                    <input type="hidden" name="cancel_order_id" value="<?php echo $order['id']; ?>">
+                    <button type="submit" style="padding: 4px 10px; color: white; background-color: red; border: none; border-radius: 4px;">Cancel</button>
+                </form>
+            <?php endif; ?>
+        </td>
+        <td style="padding: 10px; text-align: center;"><?php echo htmlspecialchars($order['order_date']); ?></td>
+    </tr>
+    <?php endforeach; ?>
+</tbody>
     <?php endif; ?>
 </main>
 

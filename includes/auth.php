@@ -1,11 +1,14 @@
 <?php
-// auth.php - Authentication Functions
+// includes/auth.php
+
 require_once __DIR__ . '/config.php';
 
 // Start session if not already started
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
+
+// --- Authentication Helpers ---
 
 function is_logged_in() {
     return isset($_SESSION['user_id'], $_SESSION['role'], $_SESSION['username']);
@@ -21,10 +24,10 @@ function is_buyer() {
 
 function redirect($url) {
     if (!headers_sent()) {
-        header('Location: ' . $url);
+        header("Location: $url");
         exit();
     }
-    echo '<script>window.location.href="' . $url . '";</script>';
+    echo "<script>window.location.href = '$url';</script>";
     exit();
 }
 
@@ -33,13 +36,13 @@ function login_user($user_id, $username, $role) {
     $_SESSION['username'] = $username;
     $_SESSION['role'] = $role;
     $_SESSION['last_activity'] = time();
-    session_regenerate_id(true);
+    session_regenerate_id(true); // Security: prevent session fixation
 }
 
 function logout_user() {
     $_SESSION = [];
 
-    if (ini_get('session.use_cookies')) {
+    if (ini_get("session.use_cookies")) {
         $params = session_get_cookie_params();
         setcookie(session_name(), '', time() - 42000,
             $params['path'], $params['domain'],
@@ -50,14 +53,18 @@ function logout_user() {
     session_destroy();
 }
 
+// --- Session Timeout Handling ---
 function check_session_timeout() {
-    if (is_logged_in() && (time() - $_SESSION['last_activity'] > 3600)) {
-        logout_user();
-        redirect('login.php?timeout=1');
+    if (is_logged_in() && isset($_SESSION['last_activity'])) {
+        if ((time() - $_SESSION['last_activity']) > 3600) { // 1 hour timeout
+            logout_user();
+            redirect('login.php?timeout=1');
+        }
+        $_SESSION['last_activity'] = time(); // Refresh last activity
     }
-    $_SESSION['last_activity'] = time();
 }
 
+// --- CSRF Handling ---
 function generate_csrf_token() {
     if (empty($_SESSION['csrf_token'])) {
         $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
@@ -66,10 +73,14 @@ function generate_csrf_token() {
 }
 
 function validate_csrf_token($token) {
-    return isset($_SESSION['csrf_token']) && 
-           hash_equals($_SESSION['csrf_token'], $token);
+    return isset($_SESSION['csrf_token']) && hash_equals($_SESSION['csrf_token'], $token);
 }
 
-// Auto checks on include
-check_session_timeout();
-generate_csrf_token();
+// --- Automatically Check Only If Not on Login/Register Page ---
+$current_file = basename($_SERVER['PHP_SELF']);
+$skip_pages = ['login.php', 'register.php', 'index.php']; // Add more if needed
+
+if (!in_array($current_file, $skip_pages)) {
+    check_session_timeout();
+    generate_csrf_token();
+}

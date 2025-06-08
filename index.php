@@ -1,25 +1,6 @@
 <?php
-// DB connection (update with your actual credentials)
-$host = 'localhost';
-$db = 'frutopia'; 
-$user = 'root';
-$pass = '';
-$charset = 'utf8mb4';
-
-
-$dsn = "mysql:host=$host;dbname=$db;charset=$charset";
-$options = [
-    PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
-    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-    PDO::ATTR_EMULATE_PREPARES   => false,
-];
-
-try {
-    $pdo = new PDO($dsn, $user, $pass, $options);
-} catch (PDOException $e) {
-    echo "DB Connection failed: " . $e->getMessage();
-    exit;
-}
+require_once 'includes/config.php';
+require_once 'includes/auth.php';
 
 function fetchFruitsBySeason($pdo, $seasonTable) {
     $allowedTables = ['summer_fruits', 'rainy_fruits', 'winter_fruits'];
@@ -55,8 +36,8 @@ $seasons = [
     <header>
         <div class="top-bar">
             <div class="logo-container">
-                <div class="logo"><a href="index.php">FRUITOPIA</a></div>
-            </div>
+            <a href="index.php" class="logo">FRUITOPIA</a>
+        </div>
             <div class="location">
                 Location
             </div>
@@ -71,11 +52,9 @@ $seasons = [
             </div>
             <div class="nav-actions">
                 <!-- Login button -->
-                <div class="btn login-btn">
-                    <a href="login.php" class="btn-login">
+                    <a href="login.php" class="login-btn">
                         <span>Login</span>
                     </a>
-                </div>
 
                 <!-- Shop button -->
                 <div class="btn shop-btn">
@@ -99,7 +78,7 @@ $seasons = [
                 <div class="season-card">
                     <div class="season-img">
                         <img
-                            src="https://static.vecteezy.com/system/resources/previews/004/654/777/original/summer-season-typographic-poster-free-vector.jpg"
+                            src="uploads/summer.png"
                             alt="Summer Season"
                         />
                     </div>
@@ -108,7 +87,7 @@ $seasons = [
                 <div class="season-card">
                     <div class="season-img">
                         <img
-                            src="https://thumbs.dreamstime.com/z/vector-cartoon-illustration-rainy-day-beautiful-background-vector-cartoon-illustration-rainy-day-126766509.jpg"
+                            src="uploads/rainy.png"
                             alt="Rainy Season"
                         />
                     </div>
@@ -117,7 +96,7 @@ $seasons = [
                 <div class="season-card">
                     <div class="season-img">
                         <img
-                            src="https://img.freepik.com/free-vector/winter-landscape-background_23-2149155991.jpg"
+                            src="uploads/winter.png"
                             alt="Winter Season"
                         />
                     </div>
@@ -141,18 +120,17 @@ $seasons = [
                 <div class="fruits-grid">
                     <?php foreach ($fruits as $fruit): ?>
                         <div class="fruit-card">
-    <img src="<?php echo htmlspecialchars($fruit['photo']); ?>" alt="<?php echo htmlspecialchars($fruit['name']); ?>" />
-    <h4><?php echo htmlspecialchars($fruit['name']); ?></h4>
-    <p>Quantity: <?php echo intval($fruit['quantity']) . ' ' . htmlspecialchars($fruit['unit']); ?></p>
-    <?php if (isset($_SESSION['user_id'])): ?>
-        <!-- User logged in, go to order page with fruit name as parameter -->
-        <a href="order.php?fruit=<?php echo urlencode($fruit['name']); ?>" class="order-btn">Order</a>
-    <?php else: ?>
-        <!-- Not logged in, redirect to login -->
-        <a href="login.php" class="order-btn">Order</a>
-    <?php endif; ?>
-</div>
-
+                            <img src="<?php echo htmlspecialchars($fruit['photo']); ?>" alt="<?php echo htmlspecialchars($fruit['name']); ?>" />
+                            <h4><?php echo htmlspecialchars($fruit['name']); ?></h4>
+                            <p>Quantity: <?php echo intval($fruit['quantity']) . ' ' . htmlspecialchars($fruit['unit']); ?></p>
+                            <?php if (isset($_SESSION['user_id'])): ?>
+                                <!-- User logged in, go to browse_fruits.php with season -->
+                                <a href="browse_fruits.php?season=<?php echo strtolower($seasonName); ?>" class="order-btn">Order</a>
+                            <?php else: ?>
+                                <!-- Not logged in, redirect to login -->
+                                <a href="login.php" class="order-btn">Order</a>
+                            <?php endif; ?>
+                        </div>
                     <?php endforeach; ?>
                 </div>
             <?php endforeach; ?>

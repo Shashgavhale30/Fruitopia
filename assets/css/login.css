@@ -1,4 +1,4 @@
-/* Clean & Modern CSS for Login & Register - Fruitopia */
+/* Beautiful Login & Register CSS - Fruitopia Style */
 
 * {
     margin: 0;
@@ -7,62 +7,138 @@
 }
 
 :root {
-    --primary-green: #141f0c;
-    --secondary-green: #4F7942;
-    --accent-green: #6B8E23;
-    --light-green: #8FBC8F;
-    --success-green: #28A745;
-    --dark-text: #2C3E50;
-    --light-text: #ffffff;
-    --muted-text: #6C757D;
+    /* Same color palette as homepage */
+    --primary-green: #5A827E;
+    --medium-green: #84AE92;
+    --light-green: #B9D4AA;
+    --cream-yellow: #FAFFCA;
+    --dark-green: #4A6B67;
+    --forest-deep: #6B9B87;
+    --sage-light: #C8E6C9;
+    --earth-brown: #8D6E63;
+    --warm-beige: #F5F5DC;
+    --soft-olive: #9CAF88;
+    
+    /* Light Pink Colors */
+    --light-pink: #FFE4E6;
+    --rose-pink: #FFADB5;
+    --blush-pink: #FFD6D9;
+    --coral-pink: #FF9AA2;
+    --peachy-pink: #FFCCCB;
+    
+    /* Background & Text Colors */
+    --dark-bg: #F8FDF8;
+    --dark-secondary: #F0F8F0;
+    --text-primary: #2E3A2E;
+    --text-secondary: #4A5A4A;
+    --text-light: #ffffff;
+    --glass-bg: rgba(248, 253, 248, 0.95);
+    --shadow-glow: rgba(90, 130, 126, 0.3);
     --error-red: #DC3545;
-    --border-light: #E9ECEF;
-    --background-light: #F8F9FA;
-    --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --success-green: #28A745;
 }
 
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: linear-gradient(135deg, var(--primary-green) 0%, var(--secondary-green) 100%);
+    font-family: "Comic Neue", "Poppins", sans-serif;
+    line-height: 1.6;
+    color: var(--text-primary);
+    background: linear-gradient(135deg, var(--dark-bg) 0%, var(--light-pink) 20%, var(--dark-secondary) 50%, var(--blush-pink) 80%, var(--sage-light) 100%);
     min-height: 100vh;
-    color: var(--dark-text);
-    padding-top: 70px;
+    padding-top: 80px;
 }
 
-/* Navbar */
+/* Animations */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes checkMark {
+    0% {
+        opacity: 0;
+        transform: scale(0) rotate(45deg);
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1.2) rotate(45deg);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1) rotate(45deg);
+    }
+}
+
+@keyframes gentlePulse {
+    0%, 100% {
+        box-shadow: 0 0 0 0 rgba(40, 167, 69, 0.4);
+    }
+    50% {
+        box-shadow: 0 0 0 10px rgba(40, 167, 69, 0.1);
+    }
+}
+
+@keyframes inputSuccess {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.02); }
+    100% { transform: scale(1); }
+}
+
+/* Navbar - Matching Homepage Style */
 .portal-navbar {
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
-    height: 70px;
-    background: rgba(45, 80, 22, 0.95);
-    backdrop-filter: blur(10px);
+    height: 80px;
+    background: linear-gradient(135deg, var(--glass-bg) 0%, rgba(255, 228, 230, 0.9) 100%);
+    backdrop-filter: blur(20px);
+    border-bottom: 3px solid var(--primary-green);
+    box-shadow: 0 4px 20px var(--shadow-glow);
     display: flex;
     align-items: center;
-    padding: 0 2rem;
-    box-shadow: var(--shadow);
+    padding: 0 5%;
     z-index: 1000;
 }
 
 .navbar-brand {
-    font-size: 1.5rem;
-    color: var(--light-text);
+    font-size: 28px;
+    font-weight: 900;
+    font-family: "Comic Neue", cursive;
+    background: linear-gradient(45deg, 
+        var(--primary-green) 0%, 
+        var(--medium-green) 20%, 
+        var(--coral-pink) 40%, 
+        var(--forest-deep) 60%, 
+        var(--rose-pink) 80%, 
+        var(--primary-green) 100%);
+    background-size: 300% 300%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
     text-decoration: none;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    font-weight: 600;
-    transition: color 0.3s ease;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.navbar-brand::before {
+    content: "🍓";
+    position: absolute;
+    left: -35px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 24px;
 }
 
 .navbar-brand:hover {
-    color: var(--light-green);
-}
-
-.navbar-brand i {
-    color: var(--accent-green);
-    font-size: 1.8rem;
+    transform: scale(1.05);
 }
 
 /* Main Container */
@@ -70,20 +146,41 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: calc(100vh - 70px);
+    min-height: calc(100vh - 80px);
     padding: 2rem;
+    animation: fadeInUp 0.8s ease;
 }
 
 /* Auth Card */
 .auth-card {
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(10px);
-    border-radius: 20px;
+    background: linear-gradient(145deg, rgba(255, 255, 255, 0.95), rgba(255, 228, 230, 0.9));
+    backdrop-filter: blur(20px);
+    border-radius: 25px;
     padding: 3rem;
     width: 100%;
     max-width: 500px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+    border: 3px solid var(--medium-green);
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.auth-card::before {
+    content: "";
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(45deg, var(--primary-green), var(--coral-pink), var(--medium-green));
+    border-radius: 25px;
+    z-index: -1;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.auth-card:hover::before {
+    opacity: 0.1;
 }
 
 /* Brand Logo */
@@ -95,38 +192,47 @@ body {
 .brand-logo {
     width: 80px;
     height: 80px;
-    background: linear-gradient(135deg, var(--accent-green), var(--success-green));
+    background: linear-gradient(135deg, var(--medium-green), var(--coral-pink));
     border-radius: 20px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
     margin-bottom: 1.5rem;
-    box-shadow: 0 6px 20px rgba(107, 142, 35, 0.4);
+    box-shadow: 0 6px 20px rgba(132, 174, 146, 0.4);
+    font-size: 2rem;
+    transition: all 0.3s ease;
+}
+
+.brand-logo:hover {
+    transform: scale(1.1) rotate(5deg);
 }
 
 /* Headings */
 h2 {
-    color: var(--dark-text);
-    font-size: 1.5rem;
-    font-weight: 600;
+    color: var(--text-primary);
+    font-size: 2rem;
+    font-weight: 700;
     margin-bottom: 1.5rem;
     text-align: center;
+    font-family: "Comic Neue", cursive;
 }
 
 /* Form Styles */
 .mb-3 {
-    margin-bottom: 1.2rem;
+    margin-bottom: 1.5rem;
+    position: relative;
 }
 
 .form-label {
     display: block;
     margin-bottom: 0.5rem;
-    font-weight: 500;
-    color: var(--dark-text);
-    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    font-size: 1rem;
+    font-family: "Comic Neue", cursive;
 }
 
-/* Target all input types and form controls */
+/* Enhanced Input Styles */
 .form-control,
 input[type="text"],
 input[type="email"],
@@ -135,25 +241,27 @@ select,
 textarea {
     width: 100%;
     padding: 16px 20px;
-    border: 2px solid rgba(255, 255, 255, 0.3);
-    border-radius: 12px;
+    border: 2px solid var(--medium-green);
+    border-radius: 15px;
     background: rgba(255, 255, 255, 0.9);
-    color: var(--dark-text);
+    color: var(--text-primary);
     font-size: 16px;
-    font-family: inherit;
+    font-family: "Comic Neue", cursive;
+    font-weight: 500;
     transition: all 0.3s ease;
     box-sizing: border-box;
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
     min-height: 55px;
+    position: relative;
 }
 
 .form-control::placeholder,
 input::placeholder,
 textarea::placeholder {
-    color: var(--muted-text);
-    opacity: 1;
+    color: var(--text-secondary);
+    opacity: 0.8;
 }
 
 .form-control:focus,
@@ -161,66 +269,133 @@ input:focus,
 select:focus,
 textarea:focus {
     outline: none;
-    border-color: var(--light-green);
+    border-color: var(--coral-pink);
     background: white;
-    box-shadow: 0 0 0 4px rgba(143, 188, 143, 0.2);
-    transform: translateY(-1px);
+    box-shadow: 0 0 20px rgba(255, 154, 162, 0.4);
+    transform: translateY(-2px);
+}
+
+/* Input Success State */
+.form-control.valid,
+input.valid,
+select.valid,
+textarea.valid {
+    border-color: var(--success-green);
+    background: rgba(40, 167, 69, 0.05);
+    animation: inputSuccess 0.3s ease;
+}
+
+/* Success Checkmark */
+.input-success-check {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--success-green);
+    opacity: 0;
+    transition: all 0.3s ease;
+}
+
+.input-success-check::after {
+    content: "";
+    position: absolute;
+    left: 7px;
+    top: 3px;
+    width: 6px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+    animation: checkMark 0.5s ease;
+}
+
+.input-success-check.show {
+    opacity: 1;
+    animation: gentlePulse 2s infinite;
 }
 
 /* Select Dropdown */
 select.form-control,
 select {
     cursor: pointer;
-    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
-    background-position: right 12px center;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%234A5A4A' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
+    background-position: right 15px center;
     background-repeat: no-repeat;
     background-size: 16px;
-    padding-right: 40px;
+    padding-right: 45px;
 }
 
 /* Textarea */
 textarea.form-control,
 textarea {
     resize: vertical;
-    min-height: 80px;
-    font-family: inherit;
-    line-height: 1.5;
+    min-height: 100px;
+    font-family: "Comic Neue", cursive;
+    line-height: 1.6;
 }
 
-/* Button */
+/* Beautiful Button */
 .btn-auth {
     width: 100%;
-    padding: 16px;
-    background: linear-gradient(135deg, var(--accent-green), var(--success-green));
-    color: white;
+    padding: 18px;
+    background: linear-gradient(135deg, var(--medium-green), var(--coral-pink));
+    color: var(--text-light);
     border: none;
-    border-radius: 12px;
+    border-radius: 25px;
     font-size: 18px;
-    font-weight: 600;
+    font-weight: 700;
+    font-family: "Comic Neue", cursive;
     cursor: pointer;
     transition: all 0.3s ease;
     margin-top: 1.5rem;
-    box-shadow: 0 4px 15px rgba(107, 142, 35, 0.3);
-    min-height: 55px;
+    box-shadow: 0 6px 20px rgba(132, 174, 146, 0.4);
+    min-height: 60px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-auth::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    transition: left 0.5s ease;
 }
 
 .btn-auth:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(107, 142, 35, 0.4);
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(132, 174, 146, 0.6);
+    background: linear-gradient(135deg, var(--coral-pink), var(--rose-pink));
+}
+
+.btn-auth:hover::before {
+    left: 100%;
 }
 
 .btn-auth:active {
-    transform: translateY(0);
+    transform: translateY(-1px);
 }
 
 /* Error Messages */
+.error-message,
 .auth-card div[style*="color: #b00020"] {
-    background: rgba(220, 53, 69, 0.1);
+    background: linear-gradient(135deg, rgba(220, 53, 69, 0.1), rgba(220, 53, 69, 0.05));
     color: var(--error-red) !important;
-    padding: 1rem;
-    border-radius: 8px;
+    padding: 1rem 1.5rem;
+    border-radius: 15px;
     margin-bottom: 1rem;
-    border-left: 4px solid var(--error-red);
+    border: 2px solid rgba(220, 53, 69, 0.2);
+    border-left: 5px solid var(--error-red);
+    font-weight: 600;
+    animation: fadeInUp 0.3s ease;
 }
 
 .auth-card ul {
@@ -235,65 +410,94 @@ textarea {
 
 /* Success Messages */
 .success-message {
-    background: rgba(40, 167, 69, 0.1);
+    background: linear-gradient(135deg, rgba(40, 167, 69, 0.1), rgba(40, 167, 69, 0.05));
     color: var(--success-green);
-    padding: 1rem;
-    border-radius: 8px;
+    padding: 1rem 1.5rem;
+    border-radius: 15px;
     margin-bottom: 1rem;
-    border-left: 4px solid var(--success-green);
+    border: 2px solid rgba(40, 167, 69, 0.2);
+    border-left: 5px solid var(--success-green);
+    font-weight: 600;
+    animation: fadeInUp 0.3s ease;
+    position: relative;
+}
+
+.success-message::before {
+    content: "✓";
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.success-message {
+    padding-left: 3rem;
 }
 
 /* Links */
 p {
     text-align: center;
     margin-top: 1.5rem;
-    color: var(--muted-text);
-    font-size: 0.9rem;
+    color: var(--text-secondary);
+    font-size: 1rem;
+    font-weight: 500;
 }
 
 a {
-    color: var(--accent-green);
+    color: var(--primary-green);
     text-decoration: none;
-    font-weight: 600;
+    font-weight: 700;
+    transition: all 0.3s ease;
 }
 
 a:hover {
-    color: var(--success-green);
-    text-decoration: underline;
+    color: var(--coral-pink);
+    text-shadow: 0 0 5px rgba(255, 154, 162, 0.5);
 }
 
 /* Seller Fields Animation */
 #seller-extra-fields {
-    transition: all 0.3s ease;
+    transition: all 0.5s ease;
     overflow: hidden;
+    animation: fadeInUp 0.5s ease;
 }
 
-/* Wave Background */
-.wave-bg {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 100vh;
-    z-index: -1;
-    opacity: 0.08;
-    background: url('data:image/svg+xml;utf8,<svg viewBox="0 0 1440 320" xmlns="http://www.w3.org/2000/svg"><path fill="%236B8E23" d="M0,128L48,138.7C96,149,192,171,288,170.7C384,171,480,149,576,128C672,107,768,85,864,96C960,107,1056,149,1152,160C1248,171,1344,149,1392,138.7L1440,128L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>') repeat-x;
-    animation: wave 20s linear infinite;
+/* Loading State */
+.btn-auth.loading {
+    pointer-events: none;
+    opacity: 0.8;
 }
 
-@keyframes wave {
-    0% { background-position-x: 0; }
-    100% { background-position-x: 1440px; }
+.btn-auth.loading::after {
+    content: "";
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    border: 2px solid transparent;
+    border-top: 2px solid white;
+    border-radius: 50%;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: translateY(-50%) rotate(0deg); }
+    100% { transform: translateY(-50%) rotate(360deg); }
 }
 
 /* Responsive Design */
-@media (max-width: 640px) {
+@media (max-width: 768px) {
     .auth-container {
         padding: 1rem;
     }
     
     .auth-card {
         padding: 2rem 1.5rem;
+        border-radius: 20px;
     }
     
     .brand-logo {
@@ -302,21 +506,32 @@ a:hover {
     }
     
     .portal-navbar {
-        padding: 0 1rem;
+        padding: 0 3%;
+        height: 70px;
+    }
+    
+    body {
+        padding-top: 70px;
     }
     
     h2 {
-        font-size: 1.3rem;
+        font-size: 1.8rem;
     }
     
     .navbar-brand {
-        font-size: 1.3rem;
+        font-size: 24px;
+    }
+    
+    .navbar-brand::before {
+        left: -30px;
+        font-size: 20px;
     }
 }
 
 @media (max-width: 480px) {
     .auth-card {
         padding: 1.5rem 1rem;
+        border-radius: 15px;
     }
     
     .brand-logo {
@@ -325,14 +540,54 @@ a:hover {
     }
     
     h2 {
-        font-size: 1.2rem;
+        font-size: 1.5rem;
     }
     
-    .form-control {
-        padding: 0.7rem 0.8rem;
+    .form-control,
+    input,
+    select,
+    textarea {
+        padding: 14px 16px;
+        font-size: 15px;
     }
     
     .btn-auth {
-        padding: 0.8rem;
+        padding: 16px;
+        font-size: 16px;
     }
+    
+    .navbar-brand {
+        font-size: 20px;
+    }
+    
+    .navbar-brand::before {
+        left: -25px;
+        font-size: 18px;
+    }
+}
+
+/* Additional Beautiful Effects */
+.form-group {
+    position: relative;
+}
+
+.floating-label {
+    position: absolute;
+    left: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: white;
+    padding: 0 8px;
+    color: var(--text-secondary);
+    font-size: 16px;
+    pointer-events: none;
+    transition: all 0.3s ease;
+}
+
+.form-control:focus + .floating-label,
+.form-control:not(:placeholder-shown) + .floating-label {
+    top: 0;
+    font-size: 12px;
+    color: var(--coral-pink);
+    font-weight: 600;
 }
