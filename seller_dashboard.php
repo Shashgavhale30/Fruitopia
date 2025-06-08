@@ -8,8 +8,8 @@ if (!is_logged_in() || $_SESSION['role'] !== 'seller') {
 
 $seller_id = $_SESSION['user_id'];
 
-// Fetch seller's name from sellers table
-$stmt = $pdo->prepare("SELECT name FROM sellers WHERE id = ?");
+// Fetch seller's details from sellers table
+$stmt = $pdo->prepare("SELECT name, address FROM sellers WHERE id = ?");
 $stmt->execute([$seller_id]);
 $seller = $stmt->fetch();
 
@@ -19,6 +19,7 @@ if (!$seller) {
 }
 
 $seller_name = $seller['name'];
+$seller_address = $seller['address'];
 
 // Get pending order count for the notification badge
 $stmt = $pdo->prepare("SELECT COUNT(*) FROM orders WHERE status = 'pending' AND seller_id = ?");
@@ -68,7 +69,7 @@ $pending_count = $stmt->fetchColumn();
                     <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
                     <circle cx="12" cy="10" r="3" />
                 </svg>
-                Location
+                <?php echo htmlspecialchars($seller_address); ?>
             </div>
         </div>
 

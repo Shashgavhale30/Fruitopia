@@ -13,11 +13,12 @@ if (!is_logged_in() || $_SESSION['role'] !== 'buyer') {
 
 $buyer_id = $_SESSION['user_id'];
 
-// Fetch buyer's name
-$stmt = $pdo->prepare("SELECT name FROM buyers WHERE id = ?");
+// Fetch buyer's details
+$stmt = $pdo->prepare("SELECT name, address FROM buyers WHERE id = ?");
 $stmt->execute([$buyer_id]);
 $buyer = $stmt->fetch();
 $buyer_name = $buyer ? $buyer['name'] : 'Buyer';
+$buyer_address = $buyer ? $buyer['address'] : 'Address not set';
 
 // Get pending order count for notifications
 $stmt = $pdo->prepare("SELECT COUNT(*) FROM orders WHERE buyer_id = ? AND status IN ('pending', 'processing')");
@@ -88,7 +89,7 @@ $seasons = [
                 <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
                 <circle cx="12" cy="10" r="3"></circle>
             </svg>
-            Location
+            <?php echo htmlspecialchars($buyer_address); ?>
         </div>
     </div>
 
