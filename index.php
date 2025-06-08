@@ -13,11 +13,28 @@ function fetchFruitsBySeason($pdo, $seasonTable) {
     return $stmt->fetchAll();
 }
 
+function fetchAllFruits($pdo) {
+    $allFruits = [];
+    $tables = ['summer_fruits', 'rainy_fruits', 'winter_fruits'];
+    
+    foreach ($tables as $table) {
+        $sql = "SELECT name, id, '$table' as season_table FROM $table";
+        $stmt = $pdo->query($sql);
+        $fruits = $stmt->fetchAll();
+        $allFruits = array_merge($allFruits, $fruits);
+    }
+    
+    return $allFruits;
+}
+
 $seasons = [
     'summer_fruits' => 'Summer',
     'rainy_fruits' => 'Rainy',
     'winter_fruits' => 'Winter',
 ];
+
+// Get all fruits for search functionality
+$allFruits = fetchAllFruits($pdo);
 ?>
 
 <!DOCTYPE html>
@@ -31,13 +48,40 @@ $seasons = [
         rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital@0;1&display=swap"
     />
+    <style>
+        .search-results {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            z-index: 1000;
+            max-height: 300px;
+            overflow-y: auto;
+            display: none;
+        }
+        .search-result-item {
+            padding: 10px;
+            cursor: pointer;
+            border-bottom: 1px solid #eee;
+        }
+        .search-result-item:hover {
+            background-color: #f5f5f5;
+        }
+        .search-container {
+            position: relative;
+        }
+    </style>
 </head>
 <body>
     <header>
         <div class="top-bar">
             <div class="logo-container">
-            <a href="index.php" class="logo">FRUITOPIA</a>
-        </div>
+                <a href="index.php" class="logo">FRUITOPIA</a>
+            </div>
             <div class="location">
                 Location
             </div>
@@ -48,13 +92,16 @@ $seasons = [
                     type="text"
                     placeholder="Search for product"
                     class="search-input"
+                    id="fruitSearch"
+                    autocomplete="off"
                 />
+                <div class="search-results" id="searchResults"></div>
             </div>
             <div class="nav-actions">
                 <!-- Login button -->
-                    <a href="login.php" class="login-btn">
-                        <span>Login</span>
-                    </a>
+                <a href="login.php" class="login-btn">
+                    <span>Login</span>
+                </a>
 
                 <!-- Shop button -->
                 <div class="btn shop-btn">
@@ -135,8 +182,71 @@ $seasons = [
                 </div>
             <?php endforeach; ?>
         </section>
-        
     </main>
+
+    <script>
+        // Convert PHP fruits array to JavaScript
+        const allFruits = <?php echo json_encode($allFruits); ?>;
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('fruitSearch');
+            const searchResults = document.getElementById('searchResults');
+            
+            searchInput.addEventListener('input', function() {
+                const searchTerm = this.value.toLowerCase();
+                searchResults.innerHTML = '';
+                
+                if (searchTerm.length < 2) {
+                    searchResults.style.display = 'none';
+                    return;
+                }
+                
+                const filteredFruits = allFruits.filter(fruit => 
+                    fruit.name.toLowerCase().includes(searchTerm)
+                );
+                
+                if (filteredFruits.length > 0) {
+                    filteredFruits.forEach(fruit => {
+                        const resultItem = document.createElement('div');
+                        resultItem.className = 'search-result-item';
+                        resultItem.textContent = fruit.name;
+                        
+                        resultItem.addEventListener('click', function() {
+                            // Determine the season from the table name
+                            let season = '';
+                            if (fruit.season_table.includes('summer')) {
+                                season = 'summer';
+                            } else if (fruit.season_table.includes('rainy')) {
+                                season = 'rainy';
+                            } else if (fruit.season_table.includes('winter')) {
+                                season = 'winter';
+                            }
+                            
+                            // Redirect to the fruit's season page with the fruit ID
+                            window.location.href = `browse_fruits.php?season=${season}&fruit_id=${fruit.id}`;
+                        });
+                        
+                        searchResults.appendChild(resultItem);
+                    });
+                    searchResults.style.display = 'block';
+                } else {
+                    const noResults = document.createElement('div');
+                    noResults.className = 'search-result-item';
+                    noResults.textContent = 'No fruits found';
+                    searchResults.appendChild(noResults);
+                    searchResults.style.display = 'block';
+                }
+            });
+            
+            // Hide results when clicking outside
+            document.addEventListener('click', function(e) {
+                if (!searchInput.contains(e.target) && !searchResults.contains(e.target)) {
+                    searchResults.style.display = 'none';
+                }
+            });
+        });
+    </script>
+    
     <script src="assets/js/homepage.js"></script>
 </body>
 </html>
