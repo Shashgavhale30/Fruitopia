@@ -69,6 +69,12 @@ if (isset($_GET['search']) && !empty($_GET['search'])) {
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+    crossorigin="anonymous"
+    />
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Buyer Dashboard - Fruitopia</title>
@@ -219,7 +225,7 @@ if (isset($_GET['search']) && !empty($_GET['search'])) {
                     </svg>
                 </div>
                 <div class="profile-dropdown" id="profileDropdown">
-                    <a href="logout.php" class="dropdown-item logout-btn">Logout</a>
+                    <a href="logout.php" class="logout-btn">Logout</a>
                 </div>
             </div>
 

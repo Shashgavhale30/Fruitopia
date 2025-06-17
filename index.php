@@ -40,41 +40,20 @@ $allFruits = fetchAllFruits($pdo);
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Fruitopia - Organic Fruits Delivery</title>
-    <link rel="stylesheet" href="assets/css/homepage.css" />
-    <link
-        rel="stylesheet"
-        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital@0;1&display=swap"
-    />
-    <style>
-        .search-results {
-            position: absolute;
-            top: 100%;
-            left: 0;
-            right: 0;
-            background: white;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            z-index: 1000;
-            max-height: 300px;
-            overflow-y: auto;
-            display: none;
-        }
-        .search-result-item {
-            padding: 10px;
-            cursor: pointer;
-            border-bottom: 1px solid #eee;
-        }
-        .search-result-item:hover {
-            background-color: #f5f5f5;
-        }
-        .search-container {
-            position: relative;
-        }
-    </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Fruitopia - Organic Fruits Delivery</title>
+<link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+    crossorigin="anonymous"
+/>
+<link rel="stylesheet" href="assets/css/homepage.css" />
+<link
+    rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital@0;1&display=swap"
+/>
 </head>
 <body>
     <header>

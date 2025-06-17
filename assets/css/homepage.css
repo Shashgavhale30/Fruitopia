@@ -355,19 +355,19 @@ header {
   display: block;
   padding: 12px 20px;
   margin: 8px;
-  border-radius: 12px;
+  border-radius: 20px;
   font-weight: 600;
   font-size: 14px;
   text-decoration: none;
   color: var(--text-light) !important;
-  background: linear-gradient(135deg, var(--earth-brown), var(--coral-pink));
+  background: linear-gradient(200deg, var(--earth-brown), var(--coral-pink));
   transition: all 0.3s ease;
   text-align: center;
 }
 
 .logout-btn:hover {
   transform: scale(1.05);
-}
+} 
 
 /* Enhanced Hero Section */
 .hero {
@@ -831,3 +831,30 @@ header {
 html {
   scroll-behavior: smooth;
 }
+
+        .search-results {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            z-index: 1000;
+            max-height: 300px;
+            overflow-y: auto;
+            display: none;
+        }
+        .search-result-item {
+            padding: 10px;
+            cursor: pointer;
+            border-bottom: 1px solid #eee;
+        }
+        .search-result-item:hover {
+            background-color: #f5f5f5;
+        }
+        .search-container {
+            position: relative;
+        }
+        
