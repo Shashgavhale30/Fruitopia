@@ -13,9 +13,21 @@ Fruitopia is an online fruit marketplace where buyers and sellers can interact d
 📱 Responsive design
 
 
-📸 Screenshots
-
-
+## 📸 Screenshots
+### 🏠 Homepage
+![Homepage](Screenshots/Homepage.png)
+### 🧑‍🌾 Seller Dashboard
+![Seller Dashboard](Screenshots/Seller_dashboard.png)
+### 👤 Buyer Dashboard
+![Buyer Dashboard](Screenshots/Buyer_dashboard.png)
+### 🍇 Fruit List
+![Fruit List](Screenshots/Fruit_list.png)
+### ➕ Add Fruit
+![Add Fruit](Screenshots/Add_fruit.png)
+### ✅ Accept Order
+![Accept Order](Screenshots/Accept_order.png)
+### 📦 Orders Page
+![Orders](Screenshots/Orders.png)
 
 
 Installation
